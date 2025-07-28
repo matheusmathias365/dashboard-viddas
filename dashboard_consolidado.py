@@ -51,8 +51,13 @@ anos_selecionados = st.sidebar.multiselect(
     default=anos_disponiveis
 )
 
-# Filtro de Mês
-meses_disponiveis = sorted(df['Mes'].unique())
+# Filtro de Mês (dependente do ano selecionado)
+if anos_selecionados:
+    df_filtrado_ano = df[df['Ano'].isin(anos_selecionados)]
+    meses_disponiveis = sorted(df_filtrado_ano['Mes'].unique())
+else:
+    meses_disponiveis = sorted(df['Mes'].unique())
+
 meses_selecionados = st.sidebar.multiselect(
     'Selecione o(s) Mês(es)',
     meses_disponiveis,
