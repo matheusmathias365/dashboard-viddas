@@ -19,6 +19,7 @@ def carregar_dados_consolidados(caminho_arquivo):
         df['Data'] = pd.to_datetime(df['Data'])
         # GARANTIR que a coluna 'Procedimento' seja do tipo string
         df['Procedimento'] = df['Procedimento'].astype(str).str.strip().str.upper()
+        df['Procedimento'] = df['Procedimento'].replace({'ULTRASSOM': 'USG'})
         df['Cliente'] = df['Cliente'].str.strip().str.upper()
         return df
     except FileNotFoundError:
@@ -144,7 +145,7 @@ else:
     st.markdown("---")
     st.header("Dados Detalhados Filtrados")
     # Exibir um subconjunto das colunas para clareza
-    st.dataframe(df_filtrado[['Ano', 'Mes', 'Cliente', 'Procedimento', 'Quantidade', 'Data']], use_container_width=True)
+    st.dataframe(df_filtrado[['Ano', 'Mes', 'Cliente', 'Procedimento', 'Quantidade']], use_container_width=True)
 
 # --- Rodapé ---
 st.sidebar.markdown("---")
