@@ -90,11 +90,13 @@ else:
     # KPIs (Indicadores Chave de Performance)
     st.header("Resumo dos Dados Filtrados")
     total_quantidade = df_filtrado['Quantidade'].sum()
-    num_registros = len(df_filtrado)
+    # Calcular o número de meses únicos no período filtrado
+    num_meses = df_filtrado[['Ano', 'Mes']].drop_duplicates().shape[0]
+    media_mensal = total_quantidade / num_meses if num_meses > 0 else 0
 
     col1, col2 = st.columns(2)
-    col1.metric("Total de Procedimentos Realizados", f"{total_quantidade:,}")
-    col2.metric("Número de Registros Analisados", f"{num_registros:,}")
+    col1.metric("Média Mensal de Procedimentos", f"{media_mensal:,.0f}")
+    col2.metric("Total de Procedimentos (Período)", f"{total_quantidade:,}")
 
     st.markdown("---")
 
