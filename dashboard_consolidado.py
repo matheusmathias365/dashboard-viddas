@@ -110,15 +110,18 @@ else:
     col_graf1, col_graf2 = st.columns(2)
 
     with col_graf1:
-        # Gráfico 1: Evolução da Quantidade ao Longo do Tempo
-        st.subheader("Evolução de Atendimentos")
-        df_evolucao = df_filtrado.groupby('Data')['Quantidade'].sum().reset_index()
+        # Gráfico 1: Comparativo de Atendimentos por Mês/Ano
+        st.subheader("Comparativo Mensal de Atendimentos")
+        # Agrupar por Ano e Mês para comparação
+        df_evolucao = df_filtrado.groupby(['Ano', 'Mes'])['Quantidade'].sum().reset_index()
         fig_evolucao = px.line(
             df_evolucao,
-            x='Data',
+            x='Mes',
             y='Quantidade',
-            title='Quantidade de Atendimentos ao Longo do Tempo',
-            labels={'Data': 'Data', 'Quantidade': 'Quantidade'}
+            color='Ano',  # Cria uma linha para cada ano
+            title='Comparativo de Atendimentos por Mês',
+            labels={'Mes': 'Mês', 'Quantidade': 'Total de Atendimentos', 'Ano': 'Ano'},
+            markers=True # Adiciona marcadores para melhor visualização
         )
         st.plotly_chart(fig_evolucao, use_container_width=True)
 
